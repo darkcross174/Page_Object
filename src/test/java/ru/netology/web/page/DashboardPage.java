@@ -17,9 +17,6 @@ public class DashboardPage {
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
-    public Dashboard() {
-    }
-
     public DashboardPage() {
         heading.shouldBe(visible);
     }
@@ -29,21 +26,25 @@ public class DashboardPage {
         return new TransactionPage();
     }
 
-    public TransactionPage pushSecondCard() {
+    public static TransactionPage pushSecondCard() {
         secondBalance.click();
         return new TransactionPage();
     }
 
-    public int getCardBalance(String id) {
-        val cardBalance1 = $(".list__item [data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']").getText();
-        val cardBalance2 = $(".list__item [data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d']").getText();
-        return extractBalance(id);
+    public static int getCardBalanceFirstCard() {
+        val cardBalance = $(".list__item [data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']").getText();
+        return getExtractBalance(cardBalance);
     }
 
-    private int extractBalance(String text) {
-        val start = text.indexOf(balanceStart);
-        val finish = text.indexOf(balanceFinish);
-        val value = text.substring(start + balanceStart.length(), finish);
+    public static int getCardBalanceSecondCard() {
+        val cardBalance = $(".list__item [data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d']").getText();
+        return getExtractBalance(cardBalance);
+    }
+
+    private int getExtractBalance(String cardBalance) {
+        val start = cardBalance.indexOf(balanceStart);
+        val finish = cardBalance.indexOf(balanceFinish);
+        val value = cardBalance.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
 }
